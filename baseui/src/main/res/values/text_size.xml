@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--base text-->
+    <!--Android 应用子题大小主要区分度由这几个字体决定-->
+    <dimen name="text_size_s">13dp</dimen>
+    <dimen name="text_size_m">15dp</dimen>
+    <dimen name="text_size_l">17dp</dimen>
+
+    <!--text_size_x 是为了兼容部分代码，以后只使用text_size_xl-->
+    <dimen name="text_size_x">19dp</dimen>
+
+    <dimen name="text_size_xl">19dp</dimen>
+    <dimen name="text_size_xxl">21dp</dimen>
+</resources>
