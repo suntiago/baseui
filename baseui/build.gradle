@@ -13,6 +13,9 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         flavorDimensions "versionCode"
     }
+    dataBinding {
+        enabled = true
+    }
 
     buildTypes {
         release {
@@ -32,6 +35,7 @@ dependencies {
     compile 'com.github.suntiago:getpermission:v1.0-beta'
     compile 'com.github.suntiago:network:v1.0-beta'
     compile 'com.github.suntiago:dblib:v1.0-beta'
-    compile 'com.github.suntiago:filterview:v1.1'
+    compile 'com.github.suntiago:filterview:1.2'
     compile 'com.github.suntiago:LockPattern:v1.2'
+    compile 'com.kymjs.core:themvp:1.0.7'
 }

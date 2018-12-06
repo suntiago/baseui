@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--start: progress dialog-->
     <integer name="loading_frame_interval">80</integer>
+    <!--end  : progress dialog-->
 </resources>

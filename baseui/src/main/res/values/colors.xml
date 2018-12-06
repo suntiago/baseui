@@ -1,4 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- start:主题样式-->
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="textColorPrimary">#333333</color>
+    <!-- end  :主题样式-->
+
+    <!--start:statusbar,toolbar 样式-->
+    <color name="toolbarColorPrimary">@color/colorPrimary</color>
+    <color name="toolbarColorPrimaryDark">@color/colorPrimaryDark</color>
+    <color name="statusBarColor">@color/colorPrimaryDark</color>
+    <!--end  :statusbar,toolbar 样式-->
+
+    <!--start:progress dialog-->
+    <color name="dialog_bg">#00000000</color>
+    <!--end  :progress dialog-->
 </resources>

@@ -23,15 +23,12 @@ import rx.subscriptions.CompositeSubscription;
 public abstract class SlothActivity extends AppCompatActivity {
 
     protected final String TAG = getClass().getSimpleName();
-
     //标记当前状态，
     boolean mResume = false;
     //带启动intent
     Intent mIntentToStart = null;
-
     //Rxbus注册管理
     private List<Object> mRxBusList;
-
     /*加载框*/
     protected ProgressDialog mProgressDlg;
 
@@ -88,7 +85,6 @@ public abstract class SlothActivity extends AppCompatActivity {
         super.onRestart();
         Slog.state(TAG, "---------onRestart");
     }
-
 
     @Override
     protected void onDestroy() {

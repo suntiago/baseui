@@ -2,13 +2,13 @@
 <resources>
 
 
-    <!--progress dialog start-->
+    <!--start:progress dialog start-->
     <dimen name="dialog_text_height">64dp</dimen>
     <dimen name="dialog_ll_width">100dp</dimen>
     <dimen name="dialog_ll_height">100dp</dimen>
-    <dimen name="dialog_img_width">80dp</dimen>
-    <dimen name="dialog_img_height">80dp</dimen>
+    <dimen name="dialog_img_width">50dp</dimen>
+    <dimen name="dialog_img_height">50dp</dimen>
     <dimen name="dialog_progress_width">100dp</dimen>
     <dimen name="dialog_progress_height">100dp</dimen>
-    <!--progress dialog end-->
+    <!--end  :progress dialog end-->
 </resources>

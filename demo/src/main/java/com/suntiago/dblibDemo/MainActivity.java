@@ -1,5 +1,6 @@
 package com.suntiago.dblibDemo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -8,6 +9,7 @@ import android.widget.Toast;
 import com.suntiago.baseui.account.AccountManager;
 import com.suntiago.baseui.activity.SlothActivity;
 import com.suntiago.baseui.utils.log.Slog;
+import com.suntiago.dblibDemo.themvpTest.ActivityMvpTest;
 import com.suntiago.lockpattern.PatternManager;
 
 
@@ -88,5 +90,9 @@ public class MainActivity extends SlothActivity {
         } else {
             Toast.makeText(this, "请先设置手势密码", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void onclickTestMvp(View view) {
+        startActivitySloth(new Intent(this, ActivityMvpTest.class));
     }
 }
