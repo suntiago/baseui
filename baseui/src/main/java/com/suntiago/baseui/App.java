@@ -2,6 +2,7 @@ package com.suntiago.baseui;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDex;
 
 import com.suntiago.baseui.utils.log.Slog;
 
