@@ -1,6 +1,7 @@
 package com.suntiago.baseui;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.suntiago.baseui.utils.log.Slog;
 
@@ -13,6 +14,11 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         initLogs();
+    }
+
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 
     private void initLogs() {

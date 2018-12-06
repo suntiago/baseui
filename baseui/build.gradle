@@ -12,6 +12,7 @@ android {
         targetSdkVersion rootProject.ext.android.targetSdkVersion
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         flavorDimensions "versionCode"
+        multiDexEnabled true
     }
     dataBinding {
         enabled = true
@@ -38,4 +39,5 @@ dependencies {
     compile 'com.github.suntiago:filterview:1.2'
     compile 'com.github.suntiago:LockPattern:v1.2'
     compile 'com.kymjs.core:themvp:1.0.7'
+    compile 'com.android.support:multidex:1.0.3'
 }
