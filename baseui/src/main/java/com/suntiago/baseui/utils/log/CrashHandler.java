@@ -29,7 +29,6 @@ import java.util.Map;
  * UncaughtException处理类,当程序发生Uncaught异常的时候,有该类来接管程序,并记录发送错误报告.
  *
  * @author Jeremy
- *
  */
 public class CrashHandler implements UncaughtExceptionHandler {
 
@@ -57,6 +56,8 @@ public class CrashHandler implements UncaughtExceptionHandler {
     private CrashHandler() {
     }
 
+    private static String sPath;
+
     /**
      * 获取CrashHandler实例 ,单例模式
      */
@@ -64,20 +65,42 @@ public class CrashHandler implements UncaughtExceptionHandler {
         return INSTANCE;
     }
 
+    public String getCrashLogPath() {
+        return getSavePath();
+    }
+
+    // 日志文件在sdcard中的路径
+    private String LOG_PATH = "/suntiago/com.suntiago.baseui/";
+
+    private String getSavePath() {
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            sPath = Environment.getExternalStorageDirectory().getAbsolutePath();
+        } else {
+            if (mContext != null) {
+                Slog.StorageList storageList = new Slog.StorageList(mContext);
+                sPath = storageList.getVolumePaths()[1];
+            }
+        }
+        return sPath + LOG_PATH;
+    }
+
+
     /**
      * 初始化
      *
      * @param context
      */
-    public void init(Context context, String packageName) {
+    public void init(Context context, String com, String pkgId) {
         mContext = context;
+
+        LOG_PATH = "/" + com + "/" + pkgId + "/crash-log/";
         //获取系统默认的UncaughtException处理器
         mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();
         //mLocalBroadcastManager = LocalBroadcastManager.getInstance(mContext);
         //设置该CrashHandler为程序的默认处理器
         Thread.setDefaultUncaughtExceptionHandler(this);
-        if (!TextUtils.isEmpty(packageName)) {
-            this.packageName = packageName;
+        if (!TextUtils.isEmpty(pkgId)) {
+            this.packageName = pkgId;
         }
     }
 
@@ -199,9 +222,8 @@ public class CrashHandler implements UncaughtExceptionHandler {
             String time = formatter.format(new Date());
             String pkgNamepath = packageName.replace(".", "_");
             String fileName = "crash_" + pkgNamepath + "_" + time + "_" + timestamp + ".log";
-            String path = "/sdcard/viroyal/crash/";
+            String path = getCrashLogPath();
             if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-                //String path = "/sdcard/crash/";
                 File dir = new File(path);
                 if (!dir.exists()) {
                     dir.mkdirs();

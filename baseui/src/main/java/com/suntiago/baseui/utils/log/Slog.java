@@ -29,9 +29,7 @@ public final class Slog {
     public static boolean DEBUG = true;
 
     public static boolean SHOW_ACTIVITY_STATE = true;
-
-
-    private static String LOG_PATH = "/android/com.suntiago.baseui/";// 日志文件在sdcard中的路径
+    private static String LOG_PATH = "/suntiago/com.suntiago.baseui/";// 日志文件在sdcard中的路径
     private static String LOG_FILE_FIRST_NAME = "com_suntiago_baseui_";
     private final static String LOG_FILE_END_NAME = "_log.txt";
     private static int sLogLevel = 5;
@@ -57,7 +55,7 @@ public final class Slog {
 
     public static void init(Context context, String com, String pkgId) {
         sContext = context;
-        LOG_PATH = "/" + com + "/" + pkgId + "/";
+        LOG_PATH = "/" + com + "/" + pkgId + "/log/";
         LOG_FILE_FIRST_NAME = pkgId.replace(".", "_") + "_";
     }
 
@@ -68,6 +66,10 @@ public final class Slog {
 
     public static void enableSaveLog(boolean isSaveLog) {
         Slog.isSaveLog = isSaveLog;
+    }
+
+    public static String getLogPath() {
+        return getSavePath();
     }
 
     private Slog() {
