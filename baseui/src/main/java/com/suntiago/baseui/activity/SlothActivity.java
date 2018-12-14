@@ -19,6 +19,11 @@ import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
 
+/**
+ * 请使用{@link com.suntiago.baseui.activity.base.ActivityBase}
+ */
+
+@Deprecated
 @SuppressLint("Registered")
 public abstract class SlothActivity extends AppCompatActivity {
 

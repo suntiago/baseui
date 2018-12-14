@@ -8,6 +8,8 @@ import android.widget.Toast;
 
 import com.suntiago.baseui.account.AccountManager;
 import com.suntiago.baseui.activity.SlothActivity;
+import com.suntiago.baseui.activity.base.pickmedia.IMediaPicker;
+import com.suntiago.baseui.activity.base.pickmedia.MediaPickerDelegate;
 import com.suntiago.baseui.utils.log.Slog;
 import com.suntiago.dblibDemo.themvpTest.ActivityMvpTest;
 import com.suntiago.lockpattern.PatternManager;
@@ -94,5 +96,24 @@ public class MainActivity extends SlothActivity {
 
     public void onclickTestMvp(View view) {
         startActivitySloth(new Intent(this, ActivityMvpTest.class));
+    }
+
+    public void onclickPickVideo(View view) {
+        MediaPickerDelegate.get().pickVideo(this, new IMediaPicker.PMVCallback() {
+            @Override
+            public void pickMV(String videoPath) {
+                Slog.d(TAG, "onclickPickVideo pickMV  [videoPath]:" + videoPath);
+
+            }
+        });
+    }
+
+    public void onclickTakeVideo(View view) {
+        MediaPickerDelegate.get().configPickVideo(1, 5).takeVideo(this, new IMediaPicker.PMVCallback() {
+            @Override
+            public void pickMV(String videoPath) {
+                Slog.d(TAG, "onclickTakeVideo pickMV  [videoPath]:" + videoPath);
+            }
+        });
     }
 }

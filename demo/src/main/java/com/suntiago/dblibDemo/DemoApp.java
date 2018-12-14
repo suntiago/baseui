@@ -22,4 +22,5 @@ public class DemoApp extends App {
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(getApplicationContext(), "suntiago", "com.suntiago.demo");
     }
+
 }

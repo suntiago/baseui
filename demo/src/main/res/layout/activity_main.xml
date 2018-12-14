@@ -54,9 +54,33 @@
         android:layout_height="wrap_content">
 
         <Button
-            android:onClick="onclickTestMvp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="onclickTestMvp"
             android:text="MVP-test"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="10dp"
+        android:background="@android:color/darker_gray"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onclickTakeVideo"
+            android:text="拍摄VIDEO"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onclickPickVideo"
+            android:text="选择VIDEO"/>
     </LinearLayout>
 </LinearLayout>
