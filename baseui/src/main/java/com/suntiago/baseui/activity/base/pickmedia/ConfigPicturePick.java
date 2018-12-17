@@ -5,6 +5,7 @@ package com.suntiago.baseui.activity.base.pickmedia;
  */
 
 public class ConfigPicturePick {
+    private int FILE_PIXEL_MAX_IMAGE_DEFAULT = 1080;
     /**
      * 配置图片选择的参数
      * <p>
@@ -23,11 +24,39 @@ public class ConfigPicturePick {
     public int maxPixel;
     public int maxSize;
     public int maxSizeW;
-    public int macSizeH;
+    public int maxSizeH;
     public boolean enablePixelCompress = false;
     public boolean enableQualityCompress = false;
     public boolean enableReserveRaw = true;
 
+    //是否使用自带工具裁剪
+    public boolean crop = false;
+    //宽高比例， X
+    public int aspectX = 0;
+    //宽高比例, Y
+    public int aspectY = 0;
+    public int outputX = 0;
+    public int outputY = 0;
+
     public ConfigPicturePick() {
+    }
+
+    public void reset() {
+        maxPixel = FILE_PIXEL_MAX_IMAGE_DEFAULT;
+        maxSize = 5 * 1024 * 1024;
+        maxSizeW = 1080;
+        maxSizeH = 1920;
+        enablePixelCompress = false;
+        enableQualityCompress = false;
+        enableReserveRaw = true;
+
+        //是否使用自带工具裁剪
+       crop = false;
+        //宽高比例， X
+        aspectX = 1;
+        //宽高比例, Y
+        aspectY = 1;
+        outputX = 0;
+        outputY = 0;
     }
 }

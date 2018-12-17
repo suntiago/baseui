@@ -51,31 +51,34 @@ public class FileUtils {
     private static final String tag = FileUtils.class.getSimpleName();
 
     private static FileUtils instance;
-    /**
-     * 缓存路径
-     **/
-    private String rootPath;
 
-    private FileUtils(String rootPath) {
-        this.rootPath = rootPath;
-        if (TextUtils.isEmpty(rootPath)) {
-            throw new IllegalArgumentException("FileUtils rootPath is not null.");
-        }
+    private static String sCompany = "suntiago";
+    private static String sAppName = "baseUI";
+
+    public static void initPath(String company, String appName) {
+        sAppName = appName;
+        sCompany = company;
+    }
+
+    private FileUtils() {
     }
 
     /**
      * 获取FileUtils实例，单例模式实现
-     * 该方法缓存路径为SD卡
+     * 该方法缓存路径为设置的rootPath
      *
+     * @param rootPath
      * @return
      */
-    public static FileUtils getInstance(Context context) {
-        if (isSDCardEnable()) {
-            String sdCardPath = getSDCardPath();
-            return getInstance(sdCardPath);
+    private static FileUtils getInstance() {
+        if (instance == null) {
+            synchronized (FileUtils.class) {
+                if (instance == null) {
+                    instance = new FileUtils();
+                }
+            }
         }
-        String filePath = getPackagePath(context);
-        return getInstance(filePath);
+        return instance;
     }
 
     /**
@@ -95,7 +98,7 @@ public class FileUtils {
      */
     public static String getSDCardPath() {
         return Environment.getExternalStorageDirectory().getAbsolutePath()
-                + File.separator;
+                + File.separator + sCompany + File.separator + sAppName + File.separator;
     }
 
     /**
@@ -108,23 +111,6 @@ public class FileUtils {
         return context.getFilesDir().getPath();
     }
 
-    /**
-     * 获取FileUtils实例，单例模式实现
-     * 该方法缓存路径为设置的rootPath
-     *
-     * @param rootPath
-     * @return
-     */
-    public static FileUtils getInstance(String rootPath) {
-        if (instance == null) {
-            synchronized (FileUtils.class) {
-                if (instance == null) {
-                    instance = new FileUtils(rootPath);
-                }
-            }
-        }
-        return instance;
-    }
 
     /**
      * 获取SD卡的剩余容量 单位byte
@@ -247,7 +233,7 @@ public class FileUtils {
      * @return
      */
     public String getFilePath(String type, String fileName) {
-        StringBuilder path = new StringBuilder(rootPath);
+        StringBuilder path = new StringBuilder(getSDCardPath());
         if (!TextUtils.isEmpty(fileName)) {
             File file = new File(path.toString());
             if (!file.exists()) {
@@ -471,7 +457,7 @@ public class FileUtils {
         FileOutputStream output = null;
         try {
             if (bytes != null) {
-                File file = new File(rootPath, fileName);
+                File file = new File(getSDCardPath(), fileName);
                 output = new FileOutputStream(file);
                 output.write(bytes);
                 output.flush();
@@ -502,7 +488,7 @@ public class FileUtils {
      * @return
      */
     public boolean saveInputStreamToLocalWithFileName(InputStream instream, String fileName) {
-        File file = new File(rootPath, fileName);
+        File file = new File(getSDCardPath(), fileName);
         return saveInputStreamToLocalWithFile(instream, file);
     }
 

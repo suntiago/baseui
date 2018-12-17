@@ -1,7 +1,10 @@
 package com.suntiago.dblibDemo;
 
+import android.content.Context;
+
 import com.suntiago.baseui.App;
 import com.suntiago.baseui.account.AccountManager;
+import com.suntiago.baseui.utils.FileUtils;
 import com.suntiago.baseui.utils.log.CrashHandler;
 import com.suntiago.baseui.utils.log.Slog;
 import com.suntiago.lockpattern.PatternManager;
@@ -12,15 +15,18 @@ import com.suntiago.lockpattern.PatternManager;
  */
 
 public class DemoApp extends App {
+    static final String COM = "suntiago";
+    static  final  String appNAme= "demo";
     @Override
     public void onCreate() {
         super.onCreate();
-        AccountManager.init(this);
-        PatternManager.init(this);
-        Slog.init(this, "suntiago", "com.suntiago.demo");
+        Context ct = this;
+        FileUtils.initPath(COM, appNAme);
+        AccountManager.init(ct);
+        PatternManager.init(ct);
+        Slog.init(ct, COM, appNAme);
         Slog.enableSaveLog(true);
         CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(getApplicationContext(), "suntiago", "com.suntiago.demo");
+        crashHandler.init(getApplicationContext(), COM, appNAme);
     }
-
 }

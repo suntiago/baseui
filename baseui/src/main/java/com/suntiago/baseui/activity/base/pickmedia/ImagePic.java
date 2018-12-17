@@ -14,6 +14,10 @@ public class ImagePic implements Serializable {
     private ImagePic.FromType fromType;
     private boolean cropped;
     private boolean compressed;
+
+    public ImagePic() {
+    }
+
     public static ImagePic of(String path, ImagePic.FromType fromType){
         return new ImagePic(path, fromType);
     }

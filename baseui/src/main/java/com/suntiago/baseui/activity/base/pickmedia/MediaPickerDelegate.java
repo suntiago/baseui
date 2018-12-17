@@ -7,6 +7,10 @@ import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
 import android.provider.MediaStore;
 
+import com.suntiago.baseui.utils.log.Slog;
+
+import java.util.ArrayList;
+
 import static android.media.ThumbnailUtils.OPTIONS_RECYCLE_INPUT;
 
 /**
@@ -15,8 +19,7 @@ import static android.media.ThumbnailUtils.OPTIONS_RECYCLE_INPUT;
  */
 
 public class MediaPickerDelegate implements IMediaPicker {
-
-
+    private final String TAG = getClass().getSimpleName();
     ConfigPicturePick mConfigPicturePick = new ConfigPicturePick();
     ConfigVideoPick mConfigVideoPick = new ConfigVideoPick();
 
@@ -73,43 +76,97 @@ public class MediaPickerDelegate implements IMediaPicker {
     }
 
     @Override
-    public IMediaPicker configPickPicture(int maxPixel, int maxSize, int maxSizeW, int macSizeH, boolean enablePixelCompress, boolean enableQualityCompress, boolean enableReserveRaw) {
-        return null;
+    public IMediaPicker configPickPicture(int maxPixel, int maxSize, int maxSizeW, int maxSizeH, boolean enablePixelCompress, boolean enableQualityCompress, boolean enableReserveRaw) {
+        mConfigPicturePick.maxPixel = maxPixel;
+        mConfigPicturePick.maxSize = maxSize;
+        mConfigPicturePick.maxSizeW = maxSizeW;
+        mConfigPicturePick.maxSizeH = maxSizeH;
+        mConfigPicturePick.enablePixelCompress = enablePixelCompress;
+        mConfigPicturePick.enableQualityCompress = enableQualityCompress;
+        mConfigPicturePick.enableReserveRaw = enableReserveRaw;
+        return this;
     }
 
     @Override
-    public void pickPictures(int amountLimit, PPsCallback ppsCallback) {
+    public IMediaPicker configPickPictureCrop(boolean withOwnCrop, int aspectX, int aspectY, int outputX, int outputY) {
+        mConfigPicturePick.crop = withOwnCrop;
+        if (withOwnCrop) {
+            if (aspectX <= 0) {
+                aspectX = 1;
+            } else {
+                mConfigPicturePick.aspectX = aspectX;
+            }
+            if (aspectY <= 0) {
+                aspectY = 1;
+            } else {
+                mConfigPicturePick.aspectY = aspectY;
+            }
+            if (outputX <= 0) {
+                mConfigPicturePick.outputX = 1080;
+            } else {
+                mConfigPicturePick.outputX = outputX;
+            }
+            if (outputY <= 0) {
+                mConfigPicturePick.outputY = 1920;
+            } else {
+                mConfigPicturePick.outputY = outputY;
+            }
+        }
+        return this;
+    }
 
+    private PPsCallback mPpsCallback = null;
+
+    @Override
+    public void pickPictures(Context context, int amountLimit, PPsCallback ppsCallback) {
+        pickPicture(context, true, ppsCallback, amountLimit, (PP1Callback) null);
     }
 
     @Override
-    public void pickPicture(PP1Callback pp1Callback) {
-
+    public void pickPicture(Context context, PP1Callback pp1Callback) {
+        pickPicture(context, true, null, 1, pp1Callback);
     }
 
     @Override
-    public void pickPictureAndCut(int cutSizeW, int cutSizeH, PP1Callback pp1Callback) {
-
+    public void pickPictureAndCut(Context context
+            , int aspectX, int aspectY, int cutSizeW, int cutSizeH, PP1Callback pp1Callback) {
+        configPickPictureCrop(true, aspectX, aspectY, cutSizeW, cutSizeH);
+        pickPicture(context, true, null, 1, pp1Callback);
     }
 
     @Override
-    public void pickPictures(boolean fromGallery, int amountLimit, PPsCallback ppsCallback) {
-
+    public void pickPictures(Context context, boolean fromGallery, int amountLimit, PPsCallback ppsCallback) {
+        pickPicture(context, fromGallery, ppsCallback, amountLimit, null);
     }
 
     @Override
-    public void pickPicture(boolean fromGallery, PP1Callback pp1Callback) {
-
+    public void pickPicture(Context context, boolean fromGallery, PP1Callback pp1Callback) {
+        pickPicture(context, fromGallery, null, 1, pp1Callback);
     }
 
     @Override
-    public void pickPictureAndCut(boolean fromGallery, int cutSizeW, int cutSizeH, PP1Callback pp1Callback) {
-
+    public void pickPictureAndCut(Context context, int aspectX, int aspectY,
+                                  boolean fromGallery, int cutSizeW, int cutSizeH, PP1Callback pp1Callback) {
+        configPickPictureCrop(true, aspectX, aspectY, cutSizeW, cutSizeH);
+        pickPicture(context, true, null, 1, pp1Callback);
     }
 
     @Override
-    public void cutPicture(String originPicturePath, int cutSizeW, int cutSizeH, PP1Callback pp1Callback) {
+    public void cutPicture(Context context, String originPicturePath, int cutSizeW, int cutSizeH, PP1Callback pp1Callback) {
 
+    }
+
+    PP1Callback mPp1Callback;
+
+    private void pickPicture(Context context, boolean fromGallery,
+                             PPsCallback ppsCallback, int amountLimit, PP1Callback pp1Callback) {
+        mPpsCallback = ppsCallback;
+        mPp1Callback = pp1Callback;
+        Intent intent = new Intent(context, ShadowPickMediaActivity.class);
+        intent.putExtra("action", "photo");
+        intent.putExtra("type", fromGallery ? "local" : "camera");
+        intent.putExtra("amountLimit", amountLimit);
+        context.startActivity(intent);
     }
 
     PMVCallback mPMVCallback;
@@ -118,6 +175,25 @@ public class MediaPickerDelegate implements IMediaPicker {
         if (mPMVCallback != null) {
             mPMVCallback.pickMV(videoPath);
             mPMVCallback = null;
+            mConfigVideoPick.reset();
+        }
+    }
+
+    public void photoCallback(ArrayList<ImagePic> imagePics) {
+        if (imagePics != null && imagePics.size() > 0) {
+            if (mPp1Callback != null) {
+                Slog.d(TAG, "photoCallback  [imagePics]:"+ "picked  1");
+                mPp1Callback.pickPic(imagePics.get(0));
+                mPp1Callback = null;
+                mConfigPicturePick.reset();
+            } else if (mPpsCallback != null) {
+                Slog.d(TAG, "photoCallback  [imagePics]:"+ "picked "+ imagePics.size());
+                mPpsCallback.pickPic(imagePics);
+                mPpsCallback = null;
+                mConfigPicturePick.reset();
+            }
+        }else {
+            Slog.d(TAG, "photoCallback  [imagePics]:"+ "pick null");
         }
     }
 

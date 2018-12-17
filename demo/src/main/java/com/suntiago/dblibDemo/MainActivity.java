@@ -9,10 +9,13 @@ import android.widget.Toast;
 import com.suntiago.baseui.account.AccountManager;
 import com.suntiago.baseui.activity.SlothActivity;
 import com.suntiago.baseui.activity.base.pickmedia.IMediaPicker;
+import com.suntiago.baseui.activity.base.pickmedia.ImagePic;
 import com.suntiago.baseui.activity.base.pickmedia.MediaPickerDelegate;
 import com.suntiago.baseui.utils.log.Slog;
 import com.suntiago.dblibDemo.themvpTest.ActivityMvpTest;
 import com.suntiago.lockpattern.PatternManager;
+
+import java.util.ArrayList;
 
 
 /**
@@ -113,6 +116,37 @@ public class MainActivity extends SlothActivity {
             @Override
             public void pickMV(String videoPath) {
                 Slog.d(TAG, "onclickTakeVideo pickMV  [videoPath]:" + videoPath);
+            }
+        });
+    }
+
+    public void onclickTakePhoto(View view) {
+        MediaPickerDelegate.get().pickPicture(this, false, new IMediaPicker.PP1Callback() {
+            @Override
+            public void pickPic(ImagePic imagePics) {
+                Slog.d(TAG, "onclickTakePhoto pickPic  [imagePics]: \n"
+                        + "CompressPath: " + imagePics.getCompressPath() + "\n"
+                        + "OriginalPath: " + imagePics.getOriginalPath());
+
+            }
+        });
+    }
+
+    public void onclickPickPhoto(View view) {
+        MediaPickerDelegate.get().pickPictures(this, true, 4, new IMediaPicker.PPsCallback() {
+            @Override
+            public void pickPic(ArrayList<ImagePic> imagePics) {
+                if(imagePics != null && imagePics.size() > 0) {
+                    Slog.d(TAG, "onclickPickPhoto pickPic  [imagePics]:"+imagePics.size());
+                    for (ImagePic pic : imagePics) {
+                        Slog.d(TAG, "onclickTakePhoto pickPic  [imagePics]: \n"
+                                + "CompressPath: " + pic.getCompressPath() + "\n"
+                                + "OriginalPath: " + pic.getOriginalPath());
+                    }
+                }else {
+                    Slog.d(TAG, "onclickPickPhoto pickPic  [imagePics]: null");
+                }
+
             }
         });
     }

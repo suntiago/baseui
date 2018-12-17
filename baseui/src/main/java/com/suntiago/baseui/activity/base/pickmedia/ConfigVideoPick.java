@@ -15,4 +15,9 @@ public class ConfigVideoPick {
 
     public ConfigVideoPick() {
     }
+
+    public void reset() {
+        quality = 0;
+        durationLimit = 10;
+    }
 }

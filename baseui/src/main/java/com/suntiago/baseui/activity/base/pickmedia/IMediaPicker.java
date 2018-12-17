@@ -55,6 +55,8 @@ public interface IMediaPicker {
                                    boolean enableQualityCompress,
                                    boolean enableReserveRaw);
 
+    IMediaPicker configPickPictureCrop(boolean withOwnCrop, int aspectX, int aspectY, int outputX, int outputY);
+
     /**
      * 配置视频选择的参数
      * <p>
@@ -74,7 +76,7 @@ public interface IMediaPicker {
      * @return
      * @throws
      */
-    void pickPictures(int amountLimit, PPsCallback ppsCallback);
+    void pickPictures(Context context, int amountLimit, PPsCallback ppsCallback);
 
     /**
      * 选择图片，未知的图库，还是拍摄，需要提供选择界面
@@ -83,7 +85,7 @@ public interface IMediaPicker {
      * @return
      * @throws
      */
-    void pickPicture(PP1Callback pp1Callback);
+    void pickPicture(Context context, PP1Callback pp1Callback);
 
     /**
      * 选择图片，未知的图库，还是拍摄，需要提供选择界面，
@@ -95,7 +97,7 @@ public interface IMediaPicker {
      * @return
      * @throws
      */
-    void pickPictureAndCut(int cutSizeW, int cutSizeH, PP1Callback pp1Callback);
+    void pickPictureAndCut(Context context,int aspectX, int aspectY, int cutSizeW, int cutSizeH, PP1Callback pp1Callback);
 
     /**
      * 选择图片，未知的图库，还是拍摄，需要提供选择界面
@@ -106,7 +108,7 @@ public interface IMediaPicker {
      * @return
      * @throws
      */
-    void pickPictures(boolean fromGallery, int amountLimit, PPsCallback ppsCallback);
+    void pickPictures(Context context,boolean fromGallery, int amountLimit, PPsCallback ppsCallback);
 
     /**
      * 选择图片，未知的图库，还是拍摄，需要提供选择界面
@@ -116,7 +118,7 @@ public interface IMediaPicker {
      * @return
      * @throws
      */
-    void pickPicture(boolean fromGallery, PP1Callback pp1Callback);
+    void pickPicture(Context context, boolean fromGallery, PP1Callback pp1Callback);
 
     /**
      * 选择图片，未知的图库，还是拍摄，需要提供选择界面，
@@ -129,7 +131,7 @@ public interface IMediaPicker {
      * @return
      * @throws
      */
-    void pickPictureAndCut(boolean fromGallery, int cutSizeW, int cutSizeH, PP1Callback pp1Callback);
+    void pickPictureAndCut(Context context,int aspectX, int aspectY, boolean fromGallery, int cutSizeW, int cutSizeH, PP1Callback pp1Callback);
 
     /**
      * 指定图片裁剪
@@ -140,7 +142,7 @@ public interface IMediaPicker {
      * @return
      * @throws
      */
-    void cutPicture(String originPicturePath, int cutSizeW, int cutSizeH, PP1Callback pp1Callback);
+    void cutPicture(Context context, String originPicturePath, int cutSizeW, int cutSizeH, PP1Callback pp1Callback);
 
     /**
      * 拍摄视频
