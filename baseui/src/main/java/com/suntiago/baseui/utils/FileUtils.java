@@ -46,6 +46,7 @@ import java.util.Locale;
  * @date 2014-2-25
  **/
 @SuppressWarnings("ALL")
+@Deprecated
 public class FileUtils {
 
     private static final String tag = FileUtils.class.getSimpleName();
@@ -111,12 +112,75 @@ public class FileUtils {
         return context.getFilesDir().getPath();
     }
 
+    /**
+     * 获取保存到本地的资源路径
+     *
+     * @param fileName 文件名
+     * @return
+     */
+    public String getFilePath(String fileName) {
+        return getFilePath(null, fileName);
+    }
+
+    /**
+     * 获取保存到本地的资源路径
+     *
+     * @param subdirectory 子目录
+     * @param fileName     文件名
+     * @return
+     */
+    public String getFilePath(String subdirectory, String fileName) {
+        StringBuilder path = new StringBuilder(getSDCardPath());
+        if (!TextUtils.isEmpty(fileName)) {
+            File file = new File(path.toString());
+            if (!file.exists()) {
+                file.mkdirs();
+            }
+            if (!TextUtils.isEmpty(subdirectory)) {
+                path.append(File.separator);
+                path.append(subdirectory);
+            }
+            path.append(File.separator);
+            path.append(fileName);
+        }
+        return path.toString();
+    }
+
+    /**
+     * 判断文件是否存在， true表示存在，false表示
+     *
+     * @param fileName 文件名
+     * @return
+     */
+    public boolean isFileExits(String fileName) {
+        File file = new File(getFilePath(fileName));
+        if (file.exists()) {
+            return true;
+        }
+        return false;
+    }
+
+
+    /**
+     * 检查目录下文件数量，超过阈值则删除低优先级的数据
+     * 默认优先级按时间先后排序
+     *
+     * @param subdirectory 目录，相对getSDCardPath（）下的子目录
+     * @param maxSize      最大文件个数
+     * @param maxKbytes    存储数据占用最大内存空间
+     * @return 返回删除文件的个数
+     */
+    public int checkAndDelLowPriority(String subdirectory, int maxSize, int maxKbytes) {
+        // TODO: 2018/12/20
+        return 0;
+    }
 
     /**
      * 获取SD卡的剩余容量 单位byte
      *
      * @return
      */
+    @Deprecated
     public static long getSDCardAllSize() {
         if (isSDCardEnable()) {
             StatFs stat = new StatFs(getSDCardPath());
@@ -216,52 +280,6 @@ public class FileUtils {
         return null;
     }
 
-    /**
-     * 获取保存到本地的资源路径
-     *
-     * @param fileName 文件名
-     * @return
-     */
-    public String getFilePath(String fileName) {
-        return getFilePath(null, fileName);
-    }
-
-    /**
-     * 获取保存到本地的资源路径
-     *
-     * @param fileName 文件名
-     * @return
-     */
-    public String getFilePath(String type, String fileName) {
-        StringBuilder path = new StringBuilder(getSDCardPath());
-        if (!TextUtils.isEmpty(fileName)) {
-            File file = new File(path.toString());
-            if (!file.exists()) {
-                file.mkdirs();
-            }
-            if (!TextUtils.isEmpty(type)) {
-                path.append(File.separator);
-                path.append(type);
-            }
-            path.append(File.separator);
-            path.append(fileName);
-        }
-        return path.toString();
-    }
-
-    /**
-     * 判断文件是否存在， true表示存在，false表示
-     *
-     * @param fileName 文件名
-     * @return
-     */
-    public boolean isFileExits(String fileName) {
-        File file = new File(getFilePath(fileName));
-        if (file.exists()) {
-            return true;
-        }
-        return false;
-    }
 
     /**
      * Get a file path from a Uri. This will get the the path for Storage Access
