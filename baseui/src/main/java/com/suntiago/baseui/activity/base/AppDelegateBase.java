@@ -4,8 +4,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.kymjs.themvp.view.AppDelegate;
 import com.suntiago.baseui.R;
+import com.suntiago.baseui.activity.base.theMvp.model.IModel;
+import com.suntiago.baseui.activity.base.theMvp.view.AppDelegate;
 import com.suntiago.baseui.activity.view.ProgressDialog;
 import com.suntiago.baseui.utils.ToastUtils;
 
@@ -13,13 +14,14 @@ import com.suntiago.baseui.utils.ToastUtils;
  * Created by zy on 2018/12/4.
  */
 
-public abstract class AppDelegateBase extends AppDelegate {
+public abstract class AppDelegateBase<D extends IModel> extends AppDelegate<D> {
 
     private boolean mResume = false;
     /*加载框*/
     protected ProgressDialog mProgressDlg;
     boolean mNeedToDismissProgressDlg = false;
     boolean mNeedToShowProgressDlg = false;
+    Toolbar mToolbar = null;
 
     @Override
     public abstract void initWidget();
@@ -31,14 +33,12 @@ public abstract class AppDelegateBase extends AppDelegate {
 
     @Override
     public Toolbar getToolbar() {
-        Toolbar toolbar = null;
-        if (rootView instanceof ViewGroup) {
-            toolbar = (Toolbar) LayoutInflater.from(rootView.getContext()).inflate(
+        if (mToolbar == null && rootView instanceof ViewGroup) {
+            mToolbar = (Toolbar) LayoutInflater.from(rootView.getContext()).inflate(
                     R.layout.element_toolbar, (ViewGroup) rootView, false);
-            ((ViewGroup) rootView).addView(toolbar, 0);
+            ((ViewGroup) rootView).addView(mToolbar, 0);
         }
-
-        return toolbar;
+        return mToolbar;
     }
 
     public void toast(CharSequence msg) {

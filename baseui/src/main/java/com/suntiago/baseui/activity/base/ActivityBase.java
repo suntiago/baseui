@@ -3,8 +3,11 @@ package com.suntiago.baseui.activity.base;
 import android.os.Bundle;
 
 import com.hwangjr.rxbus.RxBus;
-import com.kymjs.themvp.presenter.ActivityPresenter;
 import com.suntiago.baseui.activity.ActivityStackManager;
+import com.suntiago.baseui.activity.base.theMvp.DataBinderBase;
+import com.suntiago.baseui.activity.base.theMvp.databind.DataBinder;
+import com.suntiago.baseui.activity.base.theMvp.model.IModel;
+import com.suntiago.baseui.activity.base.theMvp.presenter.ActivityPresenter;
 import com.suntiago.baseui.utils.log.Slog;
 
 import java.util.ArrayList;
@@ -17,7 +20,7 @@ import rx.subscriptions.CompositeSubscription;
  * Created by zy on 2018/12/4.
  */
 
-public abstract class ActivityBase<T extends AppDelegateBase> extends ActivityPresenter<AppDelegateBase> {
+public abstract class ActivityBase<T extends AppDelegateBase> extends ActivityPresenter<T> {
 
     protected final String TAG = getClass().getSimpleName();
     //Rxbus注册管理
@@ -28,14 +31,30 @@ public abstract class ActivityBase<T extends AppDelegateBase> extends ActivityPr
      * 释放掉。
      */
     private CompositeSubscription mCompositeSubscription;
+    protected DataBinder binder;
+
+    public DataBinder getDataBinder() {
+        return null;
+    }
+
+    public final <D extends IModel> void notifyModelChanged(D data) {
+        if (binder != null)
+            binder.viewBindModel(viewDelegate, data);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mCompositeSubscription = new CompositeSubscription();
-        registerRxBus(this);
+        binder = getDataBinder();
+        if (binder == null) {
+            binder = dataBinderBase();
+        }
         //Activity管理
         ActivityStackManager.getInstance().addActivity(this);
+        mCompositeSubscription = new CompositeSubscription();
+        registerRxBus(this);
+        initToolbar();
+
     }
 
     @Override
@@ -96,5 +115,9 @@ public abstract class ActivityBase<T extends AppDelegateBase> extends ActivityPr
             }
             mRxBusList.clear();
         }
+    }
+
+    private final DataBinderBase dataBinderBase() {
+        return new DataBinderBase();
     }
 }

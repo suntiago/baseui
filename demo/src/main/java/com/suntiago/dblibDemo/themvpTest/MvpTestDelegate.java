@@ -1,5 +1,7 @@
 package com.suntiago.dblibDemo.themvpTest;
 
+import android.widget.TextView;
+
 import com.suntiago.baseui.activity.base.AppDelegateBase;
 import com.suntiago.dblibDemo.R;
 
@@ -7,7 +9,7 @@ import com.suntiago.dblibDemo.R;
  * Created by zy on 2018/12/4.
  */
 
-public class MvpTestDelegate extends AppDelegateBase {
+public class MvpTestDelegate extends AppDelegateBase<JavaBeanT> {
     @Override
     public int getRootLayoutId() {
         return R.layout.activity_mvp_test;
@@ -17,4 +19,17 @@ public class MvpTestDelegate extends AppDelegateBase {
     public void initWidget() {
 
     }
+
+    @Override
+    public void viewBindModel(JavaBeanT data) {
+
+    }
+
+    public void nameChanged(String name) {
+        TextView textView = get(R.id.tv_hello_world);
+        textView.setText(name);
+
+    }
+
+
 }

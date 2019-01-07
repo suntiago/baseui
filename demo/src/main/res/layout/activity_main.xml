@@ -83,6 +83,7 @@
             android:onClick="onclickPickVideo"
             android:text="选择VIDEO"/>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -104,6 +105,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="onclickPickPhoto"
-            android:text="选择Photo 2张"/>
+            android:text="选择Photo 最多4张"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="10dp"
+        android:background="@android:color/darker_gray"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onclickRxjava"
+            android:text="Rxjava"/>
+
     </LinearLayout>
 </LinearLayout>

@@ -5,15 +5,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_hello_world"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="he"/>
-
     <Button
-        android:id="@+id/btn_show_progress"
+        android:id="@+id/btn_double_click"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Progress"/>
+        android:text="测试双击"/>
 </LinearLayout>

@@ -12,6 +12,7 @@ import com.suntiago.baseui.activity.base.pickmedia.IMediaPicker;
 import com.suntiago.baseui.activity.base.pickmedia.ImagePic;
 import com.suntiago.baseui.activity.base.pickmedia.MediaPickerDelegate;
 import com.suntiago.baseui.utils.log.Slog;
+import com.suntiago.dblibDemo.rxjavaTest.RxJavaActivity;
 import com.suntiago.dblibDemo.themvpTest.ActivityMvpTest;
 import com.suntiago.lockpattern.PatternManager;
 
@@ -136,18 +137,22 @@ public class MainActivity extends SlothActivity {
         MediaPickerDelegate.get().pickPictures(this, true, 4, new IMediaPicker.PPsCallback() {
             @Override
             public void pickPic(ArrayList<ImagePic> imagePics) {
-                if(imagePics != null && imagePics.size() > 0) {
-                    Slog.d(TAG, "onclickPickPhoto pickPic  [imagePics]:"+imagePics.size());
+                if (imagePics != null && imagePics.size() > 0) {
+                    Slog.d(TAG, "onclickPickPhoto pickPic  [imagePics]:" + imagePics.size());
                     for (ImagePic pic : imagePics) {
                         Slog.d(TAG, "onclickTakePhoto pickPic  [imagePics]: \n"
                                 + "CompressPath: " + pic.getCompressPath() + "\n"
                                 + "OriginalPath: " + pic.getOriginalPath());
                     }
-                }else {
+                } else {
                     Slog.d(TAG, "onclickPickPhoto pickPic  [imagePics]: null");
                 }
 
             }
         });
+    }
+
+    public void onclickRxjava(View view) {
+        startActivitySloth(new Intent(this, RxJavaActivity.class));
     }
 }

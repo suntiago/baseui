@@ -38,8 +38,7 @@ dependencies {
     compile 'com.github.suntiago:dblib:v1.0-beta'
     compile 'com.github.suntiago:filterview:1.2'
     compile 'com.github.suntiago:LockPattern:v1.2'
-    compile 'com.kymjs.core:themvp:1.0.7'
     compile 'com.android.support:multidex:1.0.3'
     compile 'com.github.suntiago:TakePhoto:v4.0.4'
-//    compile 'com.jph.takephoto:takephoto_library:4.0.3'
+    //compile 'com.jph.takephoto:takephoto_library:4.0.3'
 }

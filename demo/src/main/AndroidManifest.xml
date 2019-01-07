@@ -23,5 +23,9 @@
         </activity>
         <activity android:name=".themvpTest.ActivityMvpTest">
         </activity>
+        <activity android:name=".rxjavaTest.RxJavaActivity"
+            android:label="Rxjava">
+        </activity>
+
     </application>
 </manifest>
