@@ -60,7 +60,6 @@ public abstract class ActivityBase<T extends AppDelegateBase, D extends IModel> 
     if (binder == null) {
       binder = dataBinderBase();
     }
-    initToolbar();
   }
 
   protected void bindEvenListener() {

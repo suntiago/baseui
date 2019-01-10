@@ -29,7 +29,6 @@ public class RxJavaActivity extends ActivityBase<RxJavaDelegate, IModel> {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    viewDelegate.setTitle("Rxjava");
     rx1();
   }
 

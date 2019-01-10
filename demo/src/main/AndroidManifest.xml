@@ -24,7 +24,8 @@
         <activity android:name=".themvpTest.ActivityMvpTest">
         </activity>
         <activity android:name=".rxjavaTest.RxJavaActivity"
-            android:label="Rxjava">
+            android:label="Rxjava"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
 
     </application>

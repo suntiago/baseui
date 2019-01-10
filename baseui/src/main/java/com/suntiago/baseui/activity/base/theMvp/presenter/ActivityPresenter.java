@@ -95,7 +95,6 @@ public abstract class ActivityPresenter<T extends IDelegate, D extends IModel> e
     Slog.state(TAG, "initView");
     viewDelegate.create(getLayoutInflater(), null, savedInstanceState);
     setContentView(viewDelegate.getRootView());
-    viewDelegate.initWidget();
   }
 
   @CallSuper
