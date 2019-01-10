@@ -10,26 +10,26 @@ import com.suntiago.dblibDemo.R;
  */
 
 public class MvpTestDelegate extends AppDelegateBase<JavaBeanT> {
-    @Override
-    public int getRootLayoutId() {
-        return R.layout.activity_mvp_test;
-    }
+  @Override
+  public int getRootLayoutId() {
+    return R.layout.activity_mvp_test;
+  }
 
-    @Override
-    public void initWidget() {
+  @Override
+  public void initWidget() {
 
-    }
+  }
 
-    @Override
-    public void viewBindModel(JavaBeanT data) {
+  @Override
+  public void viewBindModel(JavaBeanT data) {
 
-    }
+  }
 
-    public void nameChanged(String name) {
-        TextView textView = get(R.id.tv_hello_world);
-        textView.setText(name);
+  public void nameChanged(String name) {
+    TextView textView = get(R.id.tv_hello_world);
+    textView.setText(name);
 
-    }
+  }
 
 
 }

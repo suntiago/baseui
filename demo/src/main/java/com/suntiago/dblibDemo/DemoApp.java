@@ -15,18 +15,20 @@ import com.suntiago.lockpattern.PatternManager;
  */
 
 public class DemoApp extends App {
-    static final String COM = "suntiago";
-    static  final  String appNAme= "demo";
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        Context ct = this;
-        FileUtils.initPath(COM, appNAme);
-        AccountManager.init(ct);
-        PatternManager.init(ct);
-        Slog.init(ct, COM, appNAme);
-        Slog.enableSaveLog(true);
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(getApplicationContext(), COM, appNAme);
-    }
+  static final String COM = "suntiago";
+  static final String appNAme = "demo";
+
+  @Override
+  public void onCreate() {
+    super.onCreate();
+    Context ct = this;
+    FileUtils.initPath(COM, appNAme);
+    AccountManager.init(ct);
+    PatternManager.init(ct);
+    Slog.init(ct, COM, appNAme);
+    Slog.setDebug(true, true);
+    Slog.enableSaveLog(true);
+    CrashHandler crashHandler = CrashHandler.getInstance();
+    crashHandler.init(getApplicationContext(), COM, appNAme);
+  }
 }

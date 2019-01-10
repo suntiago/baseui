@@ -15,11 +15,15 @@
  */
 package com.suntiago.baseui.activity.base.theMvp.presenter;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 
+import com.suntiago.baseui.activity.base.theMvp.model.IModel;
 import com.suntiago.baseui.activity.base.theMvp.view.IDelegate;
+import com.suntiago.baseui.utils.log.Slog;
 
 
 /**
@@ -29,66 +33,135 @@ import com.suntiago.baseui.activity.base.theMvp.view.IDelegate;
  * @param <T> View delegate class type
  * @author kymjs (http://www.kymjs.com/) on 10/23/15.
  */
-public abstract class ActivityPresenter<T extends IDelegate> extends AppCompatActivity {
-    protected T viewDelegate;
+public abstract class ActivityPresenter<T extends IDelegate, D extends IModel> extends AppCompatActivity {
+  private final String TAG = getClass().getSimpleName();
+  final static String ACTIVITY_DATA_STATE = "ACTIVITY_DATA_STATE";
+  protected T viewDelegate;
+  protected D iModel;
 
-    public ActivityPresenter() {
-        try {
-            viewDelegate = getDelegateClass().newInstance();
-        } catch (InstantiationException e) {
-            throw new RuntimeException("create IDelegate error");
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException("create IDelegate error");
-        }
-        if (viewDelegate == null) {
-            throw new NullPointerException("ViewDelegate is null, you must implement method getDelegateClass() correctly!");
-        }
+  public ActivityPresenter() {
+    try {
+      viewDelegate = getDelegateClass().newInstance();
+    } catch (InstantiationException e) {
+      throw new RuntimeException("create IDelegate error");
+    } catch (IllegalAccessException e) {
+      throw new RuntimeException("create IDelegate error");
     }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        viewDelegate.create(getLayoutInflater(), null, savedInstanceState);
-        setContentView(viewDelegate.getRootView());
-        viewDelegate.initWidget();
-        bindEvenListener();
+    if (viewDelegate == null) {
+      throw new NullPointerException("ViewDelegate is null, you must implement method getDelegateClass() correctly!");
     }
+  }
 
-    protected void bindEvenListener() {
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    Slog.state(TAG, "onCreate");
+    //初始化数据
+    initData(savedInstanceState);
+    //初始化界面
+    initView(savedInstanceState);
+    //注册一些时间，比如rxbus, eventbus, 一些回调等
+    bindEvenListener();
+  }
+
+  @CallSuper
+  protected void initData(Bundle savedInstanceState) {
+    Slog.state(TAG, "initData");
+  }
+
+  @CallSuper
+  protected void initView(Bundle savedInstanceState) {
+    Slog.state(TAG, "initView");
+    viewDelegate.create(getLayoutInflater(), null, savedInstanceState);
+    setContentView(viewDelegate.getRootView());
+    viewDelegate.initWidget();
+  }
+
+  @CallSuper
+  protected void bindEvenListener() {
+    Slog.state(TAG, "bindEvenListener");
+  }
+
+  @CallSuper
+  protected void initToolbar() {
+    Slog.state(TAG, "initToolbar");
+    viewDelegate.getToolbar();
+  }
+
+  @Override
+  @CallSuper
+  protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    super.onRestoreInstanceState(savedInstanceState);
+    Slog.state(TAG, "onRestoreInstanceState");
+    if (savedInstanceState != null) {
+      iModel = savedInstanceState.getParcelable(ACTIVITY_DATA_STATE);
     }
-
-    protected void initToolbar() {
-        viewDelegate.getToolbar();
+    if (viewDelegate == null) {
+      try {
+        viewDelegate = getDelegateClass().newInstance();
+      } catch (InstantiationException e) {
+        throw new RuntimeException("create IDelegate error");
+      } catch (IllegalAccessException e) {
+        throw new RuntimeException("create IDelegate error");
+      }
     }
+  }
 
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        if (viewDelegate == null) {
-            try {
-                viewDelegate = getDelegateClass().newInstance();
-            } catch (InstantiationException e) {
-                throw new RuntimeException("create IDelegate error");
-            } catch (IllegalAccessException e) {
-                throw new RuntimeException("create IDelegate error");
-            }
-        }
+  @CallSuper
+  @Override
+  protected void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    Slog.state(TAG, "onSaveInstanceState");
+    outState.putParcelable(ACTIVITY_DATA_STATE, iModel);
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    Slog.state(TAG, "onCreateOptionsMenu");
+    if (viewDelegate.getOptionsMenuId() != 0) {
+      getMenuInflater().inflate(viewDelegate.getOptionsMenuId(), menu);
     }
+    return super.onCreateOptionsMenu(menu);
+  }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if (viewDelegate.getOptionsMenuId() != 0) {
-            getMenuInflater().inflate(viewDelegate.getOptionsMenuId(), menu);
-        }
-        return super.onCreateOptionsMenu(menu);
-    }
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    Slog.state(TAG, "onDestroy");
+    iModel = null;
+    viewDelegate = null;
+  }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        viewDelegate = null;
-    }
+  @Override
+  protected void onResume() {
+    super.onResume();
+    Slog.state(TAG, "onResume");
+  }
 
-    protected abstract Class<T> getDelegateClass();
+  @Override
+  protected void onPause() {
+    super.onPause();
+    Slog.state(TAG, "onPause");
+  }
+
+  @Override
+  protected void onStart() {
+    super.onStart();
+    Slog.state(TAG, "onStart");
+  }
+
+  @Override
+  protected void onStop() {
+    super.onStop();
+    Slog.state(TAG, "onStart");
+  }
+
+  @Override
+  protected void onNewIntent(Intent intent) {
+    super.onNewIntent(intent);
+    Slog.state(TAG, "onNewIntent");
+  }
+
+  protected abstract Class<T> getDelegateClass();
 
 }
