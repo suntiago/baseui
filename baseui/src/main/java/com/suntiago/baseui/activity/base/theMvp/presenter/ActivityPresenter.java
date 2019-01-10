@@ -48,13 +48,16 @@ public abstract class ActivityPresenter<T extends IDelegate, D extends IModel> e
         viewDelegate = null;
       }
     } catch (InstantiationException e) {
+      e.printStackTrace();
       throw new RuntimeException("create IDelegate error");
     } catch (IllegalAccessException e) {
+      e.printStackTrace();
       throw new RuntimeException("create IDelegate error");
     }
     if (viewDelegate == null) {
       throw new NullPointerException("ViewDelegate is null, you must implement method getDelegateClass() correctly!");
     }
+
     try {
       Class<D> dClass = getModelClass();
       if (dClass != null) {

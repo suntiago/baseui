@@ -36,9 +36,7 @@ public class AccountManager {
   private AccountManager(Context sContext, boolean autologin) {
     this.sContext = sContext;
     if (autologin) {
-      String account = SPUtils.getInstance(sContext).get(AccountManager_user_id);
-      String token = SPUtils.getInstance(sContext).get(AccountManager_account_token);
-      setAccount(account, token);
+      autoLogin();
     }
   }
 
@@ -138,14 +136,6 @@ public class AccountManager {
   /*初次注册，立即回调一下*/
   public void registerAccountStatusCallBack(AccountStatusCallback statusCallback) {
     registerAccountStatusCallBack(statusCallback, null);
-    if (!mAccountStatusCallbacks.contains(mAccountStatusCallbacks)) {
-      mAccountStatusCallbacks.add(statusCallback);
-      if (isLogin()) {
-        statusCallback.loginCallback();
-      } else {
-        statusCallback.logoutCallback();
-      }
-    }
   }
 
 
