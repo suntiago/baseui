@@ -98,7 +98,7 @@ public class AccountManager {
     return "";
   }
 
-  public void autoLogin() {
+  private void autoLogin() {
     String account = SPUtils.getInstance(sContext).get(AccountManager_user_id);
     String token = SPUtils.getInstance(sContext).get(account + AccountManager_account_token);
     setAccount(account, token);

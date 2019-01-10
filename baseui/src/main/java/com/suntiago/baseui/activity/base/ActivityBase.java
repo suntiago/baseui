@@ -38,8 +38,14 @@ public abstract class ActivityBase<T extends AppDelegateBase, D extends IModel> 
   }
 
   public final void notifyModelChanged() {
-    if (binder != null)
-      binder.viewBindModel(viewDelegate, iModel);
+    if (binder != null) {
+      runOnUiThread(new Runnable() {
+        @Override
+        public void run() {
+          binder.viewBindModel(viewDelegate, iModel);
+        }
+      });
+    }
   }
 
   @Override
