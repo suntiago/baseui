@@ -16,8 +16,13 @@ import rx.functions.Action1;
 
 public class ActivityMvpTest extends ActivityBase<MvpTestDelegate, JavaBeanT> {
   @Override
-  protected Class getDelegateClass() {
+  protected Class<MvpTestDelegate> getDelegateClass() {
     return MvpTestDelegate.class;
+  }
+
+  @Override
+  protected Class<JavaBeanT> getModelClass() {
+    return JavaBeanT.class;
   }
 
   @Override

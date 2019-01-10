@@ -70,6 +70,11 @@ public class RxJavaActivity extends ActivityBase<RxJavaDelegate, IModel> {
     return RxJavaDelegate.class;
   }
 
+  @Override
+  protected Class<IModel> getModelClass() {
+    return null;
+  }
+
   public void rx1() {
 
     Observer observer = new Observer() {

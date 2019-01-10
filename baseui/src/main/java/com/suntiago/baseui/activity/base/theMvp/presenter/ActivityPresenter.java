@@ -41,7 +41,12 @@ public abstract class ActivityPresenter<T extends IDelegate, D extends IModel> e
 
   public ActivityPresenter() {
     try {
-      viewDelegate = getDelegateClass().newInstance();
+      Class<T> tClass = getDelegateClass();
+      if (tClass != null) {
+        viewDelegate = tClass.newInstance();
+      } else {
+        viewDelegate = null;
+      }
     } catch (InstantiationException e) {
       throw new RuntimeException("create IDelegate error");
     } catch (IllegalAccessException e) {
@@ -49,6 +54,19 @@ public abstract class ActivityPresenter<T extends IDelegate, D extends IModel> e
     }
     if (viewDelegate == null) {
       throw new NullPointerException("ViewDelegate is null, you must implement method getDelegateClass() correctly!");
+    }
+    try {
+      Class<D> dClass = getModelClass();
+      if (dClass != null) {
+        iModel = dClass.newInstance();
+      }
+    } catch (InstantiationException e) {
+      e.printStackTrace();
+    } catch (IllegalAccessException e) {
+      e.printStackTrace();
+    }
+    if (iModel == null) {
+      Slog.e(TAG, "ActivityPresenter:iModel is null");
     }
   }
 
@@ -163,5 +181,7 @@ public abstract class ActivityPresenter<T extends IDelegate, D extends IModel> e
   }
 
   protected abstract Class<T> getDelegateClass();
+
+  protected abstract Class<D> getModelClass();
 
 }
