@@ -13,7 +13,7 @@ import com.suntiago.baseui.activity.base.pickmedia.IMediaPicker;
 import com.suntiago.baseui.activity.base.pickmedia.ImagePic;
 import com.suntiago.baseui.activity.base.pickmedia.MediaPickerDelegate;
 import com.suntiago.baseui.utils.file.StorageHelper;
-import com.suntiago.baseui.utils.file.StorageManager;
+import com.suntiago.baseui.utils.file.StorageManagerHelper;
 import com.suntiago.baseui.utils.log.Slog;
 import com.suntiago.dblibDemo.rxjavaTest.RxJavaActivity;
 import com.suntiago.dblibDemo.themvpTest.ActivityMvpTest;
@@ -37,7 +37,7 @@ public class MainActivity extends SlothActivity {
   private final String TAG = getClass().getSimpleName();
 
   TextView tvPatternLoginStatus;
-  StorageHelper mStorageHelper = StorageManager.getStorageHelper();
+  StorageHelper mStorageHelper = StorageManagerHelper.getStorageHelper();
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,6 @@ public class MainActivity extends SlothActivity {
     setContentView(R.layout.activity_main);
     initPattern();
     Slog.d(TAG, "onCreate  [savedInstanceState]:");
-    mStorageHelper.initPath("company", "test");
   }
 
   @Override

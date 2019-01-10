@@ -2,9 +2,11 @@ package com.suntiago.baseui.utils.log;
 
 import android.app.Activity;
 import android.content.Context;
-import android.os.Environment;
 import android.os.storage.StorageManager;
 import android.util.Log;
+
+import com.suntiago.baseui.utils.file.StorageHelper;
+import com.suntiago.baseui.utils.file.StorageManagerHelper;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -29,7 +31,7 @@ public final class Slog {
   public static boolean DEBUG = true;
 
   public static boolean SHOW_ACTIVITY_STATE = true;
-  private static String LOG_PATH = "/suntiago/com.suntiago.baseui/";// 日志文件在sdcard中的路径
+
   private static String LOG_FILE_FIRST_NAME = "com_suntiago_baseui_";
   private final static String LOG_FILE_END_NAME = "_log.txt";
   private static int sLogLevel = 5;
@@ -49,13 +51,18 @@ public final class Slog {
   private static Context sContext;
   private static boolean isSaveLog = false;
 
+  static StorageHelper mStorageHelper = StorageManagerHelper.getStorageHelper();
+
   public static void init(Context context) {
     sContext = context;
+    LOG_FILE_FIRST_NAME = context.getPackageName().replace(".", "_") + "_";
   }
 
+  /*use init(Context context)  instead
+  * */
+  @Deprecated
   public static void init(Context context, String com, String pkgId) {
     sContext = context;
-    LOG_PATH = "/" + com + "/" + pkgId + "/log/";
     LOG_FILE_FIRST_NAME = pkgId.replace(".", "_") + "_";
   }
 
@@ -219,15 +226,7 @@ public final class Slog {
   }
 
   public static String getSavePath() {
-    if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-      sPath = Environment.getExternalStorageDirectory().getAbsolutePath();
-    } else {
-      if (sContext != null) {
-        StorageList storageList = new StorageList(sContext);
-        sPath = storageList.getVolumePaths()[1];
-      }
-    }
-    return sPath + LOG_PATH;
+    return mStorageHelper.getSDCardPath() + "log/";
   }
 
   public static class StorageList {

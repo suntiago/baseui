@@ -12,6 +12,9 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.suntiago.baseui.utils.file.StorageHelper;
+import com.suntiago.baseui.utils.file.StorageManagerHelper;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
@@ -56,7 +59,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
   private CrashHandler() {
   }
 
-  private static String sPath;
+  StorageHelper mStorageHelper = StorageManagerHelper.getStorageHelper();
 
   /**
    * 获取CrashHandler实例 ,单例模式
@@ -69,31 +72,21 @@ public class CrashHandler implements UncaughtExceptionHandler {
     return getSavePath();
   }
 
-  // 日志文件在sdcard中的路径
-  private String LOG_PATH = "/suntiago/com.suntiago.baseui/";
 
   private String getSavePath() {
-    if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-      sPath = Environment.getExternalStorageDirectory().getAbsolutePath();
-    } else {
-      if (mContext != null) {
-        Slog.StorageList storageList = new Slog.StorageList(mContext);
-        sPath = storageList.getVolumePaths()[1];
-      }
-    }
-    return sPath + LOG_PATH;
+    return mStorageHelper.getSDCardPath() + "log/crash/";
   }
 
 
   /**
    * 初始化
+   * use init(Context context)  instead
    *
    * @param context
    */
+  @Deprecated
   public void init(Context context, String com, String pkgId) {
     mContext = context;
-
-    LOG_PATH = "/" + com + "/" + pkgId + "/crash-log/";
     //获取系统默认的UncaughtException处理器
     mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();
     //mLocalBroadcastManager = LocalBroadcastManager.getInstance(mContext);
@@ -102,6 +95,20 @@ public class CrashHandler implements UncaughtExceptionHandler {
     if (!TextUtils.isEmpty(pkgId)) {
       this.packageName = pkgId;
     }
+  }
+
+  public void init(Context context) {
+    mContext = context;
+    //获取系统默认的UncaughtException处理器
+    mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();
+    //mLocalBroadcastManager = LocalBroadcastManager.getInstance(mContext);
+    //设置该CrashHandler为程序的默认处理器
+    Thread.setDefaultUncaughtExceptionHandler(this);
+    String pkgId = context.getPackageName().replace(".", "_") + "_";
+    if (!TextUtils.isEmpty(pkgId)) {
+      this.packageName = pkgId;
+    }
+
   }
 
   /**

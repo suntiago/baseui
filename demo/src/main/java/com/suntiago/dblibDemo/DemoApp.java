@@ -5,6 +5,7 @@ import android.content.Context;
 import com.suntiago.baseui.App;
 import com.suntiago.baseui.account.AccountManager;
 import com.suntiago.baseui.utils.FileUtils;
+import com.suntiago.baseui.utils.file.StorageManagerHelper;
 import com.suntiago.baseui.utils.log.CrashHandler;
 import com.suntiago.baseui.utils.log.Slog;
 import com.suntiago.lockpattern.PatternManager;
@@ -22,13 +23,16 @@ public class DemoApp extends App {
   public void onCreate() {
     super.onCreate();
     Context ct = this;
+    StorageManagerHelper.getStorageHelper().initPath(COM, appNAme);
+
     FileUtils.initPath(COM, appNAme);
     AccountManager.init(ct);
     PatternManager.init(ct);
-    Slog.init(ct, COM, appNAme);
+    Slog.init(ct);
     Slog.setDebug(true, true);
     Slog.enableSaveLog(true);
+
     CrashHandler crashHandler = CrashHandler.getInstance();
-    crashHandler.init(getApplicationContext(), COM, appNAme);
+    crashHandler.init(getApplicationContext());
   }
 }

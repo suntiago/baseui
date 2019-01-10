@@ -21,7 +21,7 @@ import java.util.List;
  * Created by zy on 2018/12/20.
  */
 
-public class StorageManager {
+public class StorageManagerHelper {
 
   /**
    * 目前 {@link com.suntiago.baseui.utils.log.Slog},
