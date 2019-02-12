@@ -77,12 +77,13 @@ public abstract class ActivityPresenter<T extends IDelegate, D extends IModel> e
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     Slog.state(TAG, "onCreate");
+    //注册一些时间，比如rxbus, eventbus, 一些回调等
+    bindEvenListener();
     //初始化数据
     initData(savedInstanceState);
     //初始化界面
     initView(savedInstanceState);
-    //注册一些时间，比如rxbus, eventbus, 一些回调等
-    bindEvenListener();
+
   }
 
   @CallSuper

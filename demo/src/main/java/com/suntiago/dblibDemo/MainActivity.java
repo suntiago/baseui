@@ -158,7 +158,6 @@ public class MainActivity extends SlothActivity {
         } else {
           Slog.d(TAG, "onclickPickPhoto pickPic  [imagePics]: null");
         }
-
       }
     });
   }

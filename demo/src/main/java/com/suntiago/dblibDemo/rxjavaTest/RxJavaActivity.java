@@ -105,6 +105,7 @@ public class RxJavaActivity extends ActivityBase<RxJavaDelegate, IModel> {
       }
     };
 
+
     rx.Observable<String> observable1 = rx.Observable.create(
         new rx.Observable.OnSubscribe<String>() {
           @Override
@@ -143,7 +144,6 @@ public class RxJavaActivity extends ActivityBase<RxJavaDelegate, IModel> {
         e.printStackTrace();
       }
     };
-
     myObservable.subscribe(subscriber);
   }
 
