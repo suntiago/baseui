@@ -140,6 +140,9 @@ public class MainActivity extends SlothActivity {
             + "CompressPath: " + imagePics.getCompressPath() + "\n"
             + "OriginalPath: " + imagePics.getOriginalPath());
 
+        File f = new File(imagePics.getOriginalPath());
+        Slog.d(TAG, "pickPic  [imagePics]getPath: " + f.getPath());
+        Slog.d(TAG, "pickPic  [imagePics]getAbsolutePath: " + f.getAbsolutePath());
       }
     });
   }
