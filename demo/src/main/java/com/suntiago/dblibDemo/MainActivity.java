@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +46,7 @@ public class MainActivity extends SlothActivity {
     setContentView(R.layout.activity_main);
     initPattern();
     Slog.d(TAG, "onCreate  [savedInstanceState]:");
+    WebView webView = new WebView(this);
   }
 
   @Override
