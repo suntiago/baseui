@@ -26,7 +26,7 @@ import java.util.List;
 
 /**
  * Created by zy on 2019/1/29.
- *
+ * <p>
  * 需要调用的接口
  * activityResume  需要调用，涉及视频，web等的生命周期切换
  * destory  需要调用，销毁资源
@@ -266,61 +266,70 @@ public class BroadcastView extends FrameLayout {
     return false;
   }
 
-  private synchronized void playNextMedia() {
-    Slog.d(TAG, "playNextMedia  []:");
-    //查找置顶的播放media
+  private BroadcastData findnextMedia(List<BroadcastData> list, int currentPlayId) {
     BroadcastData broadcastDatanew = null;
-    List<BroadcastData> tops = KJDB.getDefaultInstance().findAllByWhere(BroadcastData.class,
-        "top=1");
-    if (tops != null && tops.size() > 0) {
-      for (BroadcastData top : tops) {
-        if (top.image_url_path != null && checkDateAndTimeIn(top.id, top.start_time, top.end_time, top.start_date, top.end_date)) {
-          broadcastDatanew = top;
-          break;
-        }
-      }
-    } else {
-      int currentPlayId = 0;
-      if (broadcastDataCurrent != null) {
-        currentPlayId = broadcastDataCurrent.id;
-      }
-      //确定当前播放的还在不在播放列表中，如果不在，就从第一个开始播放
-      BroadcastData m = KJDB.getDefaultInstance().findById(currentPlayId, BroadcastData.class);
-
-      boolean tag = false;
-      if (m == null) {
-        tag = true;
-      }
-      List<BroadcastData> list = KJDB.getDefaultInstance().findAll(BroadcastData.class);
-      if (list != null && list.size() > 0) {
-        //查找当前播放的下一个
-        for (BroadcastData media : list) {
-          if (tag) {
-            if (!media.isMieda() || !TextUtils.isEmpty(media.image_url_path)) {
-              if (checkDateAndTimeIn(media.id, media.start_time, media.end_time, media.start_date, media.end_date)) {
-                broadcastDatanew = media;
-                break;
-              }
-            }
-          } else {
-            if (media.id == m.id) {
-              tag = true;
-            }
+    boolean tag = false;
+    //确定当前播放的还在不在播放列表中，如果不在，就从第一个开始播放
+    BroadcastData m = KJDB.getDefaultInstance().findById(currentPlayId, BroadcastData.class);
+    if (m == null) {
+      tag = true;
+    }
+    if (list != null && list.size() > 0) {
+      for (BroadcastData data : list) {
+        if (tag) {
+          if (checkmediaToplay(data)) {
+            broadcastDatanew = data;
+            break;
+          }
+        } else {
+          if (data.id == m.id) {
+            tag = true;
           }
         }
-
+      }
+      if (broadcastDatanew == null) {
         //如果没有找到，再循环找一遍，因为当前播放的前几个没有查找
         if (broadcastDatanew == null) {
           for (BroadcastData media : list) {
-            if (!media.isMieda() || !TextUtils.isEmpty(media.image_url_path)) {
-              if (checkDateAndTimeIn(media.id, media.start_time, media.end_time, media.start_date, media.end_date)) {
-                broadcastDatanew = media;
-                break;
-              }
+            if (checkmediaToplay(media)) {
+              broadcastDatanew = media;
+              break;
             }
           }
         }
       }
+    }
+    return broadcastDatanew;
+  }
+
+  private boolean checkmediaToplay(BroadcastData media) {
+    if (!media.isMieda() || !TextUtils.isEmpty(media.image_url_path)) {
+      if (checkDateAndTimeIn(media.id, media.start_time, media.end_time, media.start_date, media.end_date)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private synchronized void playNextMedia() {
+    Slog.d(TAG, "playNextMedia  []:20190321-1");
+    //查找置顶的播放media
+    BroadcastData broadcastDatanew = null;
+
+    int currentPlayId = 0;
+    if (broadcastDataCurrent != null) {
+      currentPlayId = broadcastDataCurrent.id;
+    }
+
+    //第一步，优先查找top
+    List<BroadcastData> tops = KJDB.getDefaultInstance().findAllByWhere(BroadcastData.class,
+        "top=1");
+    broadcastDatanew = findnextMedia(tops, currentPlayId);
+
+    //如果top里面没有找到，查找所有的
+    if (broadcastDatanew == null) {
+      List<BroadcastData> list = KJDB.getDefaultInstance().findAll(BroadcastData.class);
+      broadcastDatanew = findnextMedia(list, currentPlayId);
     }
 
     if (broadcastDatanew != null) {
@@ -338,7 +347,6 @@ public class BroadcastView extends FrameLayout {
     } else {
       Slog.e(TAG, "playNextMedia  []: find null to play");
     }
-
     modifyCurrent(broadcastDatanew);
     //设置刷新延迟
     int durationPlayNext = 10 * 1000;
