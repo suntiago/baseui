@@ -54,11 +54,11 @@ public class BroadcastData {
     return "image-text".equals(type);
   }
 
-  public boolean isText(){
+  public boolean isText() {
     return "text".equals(type);
   }
 
-  public boolean isHtml(){
+  public boolean isHtml() {
     return "html".equals(type);
   }
 
@@ -95,7 +95,7 @@ public class BroadcastData {
   public String end_time;// "09:19:00"
 
   public int maxwidthpercent;
-  public  int contentGappercent;
+  public int contentGappercent;
 
   public void updata(BroadcastData media) {
     this.top = media.top;
@@ -127,6 +127,7 @@ public class BroadcastData {
           && com(tvcontSize, d.tvcontSize)
           && com(start_date, d.start_date)
           && com(end_date, d.end_date)
+          && com(start_time, d.start_time)
           && com(end_time, d.end_time);
     }
     return false;
