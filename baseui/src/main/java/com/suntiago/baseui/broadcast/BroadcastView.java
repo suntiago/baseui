@@ -144,6 +144,11 @@ public class BroadcastView extends FrameLayout {
           if (media.equals(dbOld)) {
             deleted = false;
             break;
+          } else {
+            if (media.isMieda() && !TextUtils.isEmpty(dbOld.image_url_path) && dbOld.image_url.equals(media.image_url)) {
+              media.image_url_path = dbOld.image_url_path;
+              dbOld.image_url_path = null;
+            }
           }
         }
         if (deleted) {
