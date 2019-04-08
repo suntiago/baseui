@@ -51,6 +51,7 @@ public abstract class ActivityBase<T extends AppDelegateBase, D extends IModel> 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    viewDelegate.onACreate();
   }
 
   @Override
@@ -75,22 +76,37 @@ public abstract class ActivityBase<T extends AppDelegateBase, D extends IModel> 
   @Override
   protected void onDestroy() {
     Slog.state(TAG, "---------onDestroy ");
-    super.onDestroy();
+    viewDelegate.onADestory();
     unregisterRxBus();
     ActivityStackManager.getInstance().removeActivity(this);
     mCompositeSubscription.unsubscribe();
+    super.onDestroy();
   }
 
   @Override
   protected void onResume() {
     super.onResume();
     viewDelegate.activityResume(true);
+    viewDelegate.onAResume();
   }
 
   @Override
   protected void onPause() {
     viewDelegate.activityResume(false);
+    viewDelegate.onAPause();
     super.onPause();
+  }
+
+  @Override
+  protected void onStop() {
+    viewDelegate.onASTop();
+    super.onStop();
+  }
+
+  @Override
+  protected void onStart() {
+    super.onStart();
+    viewDelegate.onAStart();
   }
 
   public void addRxSubscription(Subscription sub) {

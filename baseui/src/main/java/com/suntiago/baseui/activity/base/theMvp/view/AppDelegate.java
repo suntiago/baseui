@@ -17,6 +17,7 @@ package com.suntiago.baseui.activity.base.theMvp.view;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.v7.widget.Toolbar;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -25,6 +26,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.suntiago.baseui.activity.base.theMvp.model.IModel;
+import com.suntiago.baseui.utils.log.Slog;
 
 /**
  * View delegate base class
@@ -33,69 +35,106 @@ import com.suntiago.baseui.activity.base.theMvp.model.IModel;
  * @author kymjs (http://www.kymjs.com/) on 10/23/15.
  */
 public abstract class AppDelegate<D extends IModel> implements IDelegate {
-    protected final SparseArray<View> mViews = new SparseArray<View>();
+  private final String TAG = getClass().getSimpleName();
+  protected final SparseArray<View> mViews = new SparseArray<View>();
 
-    protected View rootView;
+  protected View rootView;
 
-    public abstract int getRootLayoutId();
+  public abstract int getRootLayoutId();
 
-    @Override
-    public void create(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        int rootLayoutId = getRootLayoutId();
-        rootView = inflater.inflate(rootLayoutId, container, false);
+  @Override
+  public void create(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    int rootLayoutId = getRootLayoutId();
+    rootView = inflater.inflate(rootLayoutId, container, false);
+  }
+
+  @Override
+  public int getOptionsMenuId() {
+    return 0;
+  }
+
+  public Toolbar getToolbar() {
+    return null;
+  }
+
+  @Override
+  public View getRootView() {
+    return rootView;
+  }
+
+  public void setRootView(View rootView) {
+    this.rootView = rootView;
+  }
+
+  @Override
+  public void initWidget() {
+  }
+
+  public <T extends View> T bindView(int id) {
+    T view = (T) mViews.get(id);
+    if (view == null) {
+      view = (T) rootView.findViewById(id);
+      mViews.put(id, view);
     }
+    return view;
+  }
 
-    @Override
-    public int getOptionsMenuId() {
-        return 0;
+  public <T extends View> T get(int id) {
+    return (T) bindView(id);
+  }
+
+  public void setOnClickListener(View.OnClickListener listener, int... ids) {
+    if (ids == null) {
+      return;
     }
-
-    public Toolbar getToolbar() {
-        return null;
+    for (int id : ids) {
+      get(id).setOnClickListener(listener);
     }
+  }
 
-    @Override
-    public View getRootView() {
-        return rootView;
-    }
+  public void toast(CharSequence msg) {
+    Toast.makeText(rootView.getContext(), msg, Toast.LENGTH_SHORT).show();
+  }
 
-    public void setRootView(View rootView) {
-        this.rootView = rootView;
-    }
+  public <T extends Activity> T getActivity() {
+    return (T) rootView.getContext();
+  }
 
-    @Override
-    public void initWidget() {
-    }
+  public abstract void viewBindModel(D data);
 
-    public <T extends View> T bindView(int id) {
-        T view = (T) mViews.get(id);
-        if (view == null) {
-            view = (T) rootView.findViewById(id);
-            mViews.put(id, view);
-        }
-        return view;
-    }
+  /*关联 Activity 生命周期， onCreate*/
+  @CallSuper
+  public void onACreate() {
+    Slog.state(TAG, "onACreate  []:");
+  }
 
-    public <T extends View> T get(int id) {
-        return (T) bindView(id);
-    }
+  /*关联 Activity 生命周期， onStart*/
+  @CallSuper
+  public void onAStart() {
+    Slog.state(TAG, "onAStart  []:");
+  }
 
-    public void setOnClickListener(View.OnClickListener listener, int... ids) {
-        if (ids == null) {
-            return;
-        }
-        for (int id : ids) {
-            get(id).setOnClickListener(listener);
-        }
-    }
+  /*关联 Activity 生命周期， onResume*/
+  @CallSuper
+  public void onAResume() {
+    Slog.state(TAG, "onAResume  []:");
+  }
 
-    public void toast(CharSequence msg) {
-        Toast.makeText(rootView.getContext(), msg, Toast.LENGTH_SHORT).show();
-    }
+  /*关联 Activity 生命周期， onPause*/
+  @CallSuper
+  public void onAPause() {
+    Slog.state(TAG, "onAPause  []:");
+  }
 
-    public <T extends Activity> T getActivity() {
-        return (T) rootView.getContext();
-    }
+  /*关联 Activity 生命周期， onStop*/
+  @CallSuper
+  public void onASTop() {
+    Slog.state(TAG, "onASTop  []:");
+  }
 
-    public abstract  void viewBindModel(D data);
+  @CallSuper
+  public void onADestory() {
+    Slog.state(TAG, "onADestory  []:");
+  }
+
 }
