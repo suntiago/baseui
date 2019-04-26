@@ -3,7 +3,6 @@ package com.suntiago.dblibDemo.rxjavaTest;
 import android.support.v7.widget.Toolbar;
 
 import com.suntiago.baseui.activity.base.AppDelegateBase;
-import com.suntiago.baseui.activity.base.theMvp.model.IModel;
 import com.suntiago.dblibDemo.R;
 
 /**
@@ -18,11 +17,6 @@ public class RxJavaDelegate extends AppDelegateBase {
 
     @Override
     public void initWidget() {
-
-    }
-
-    @Override
-    public void viewBindModel(IModel data) {
 
     }
 

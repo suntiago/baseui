@@ -30,20 +30,22 @@ import com.suntiago.baseui.activity.base.theMvp.view.AppDelegate;
  * @author kymjs (http://www.kymjs.com/) on 10/26/15.
  */
 public abstract class DataBindFragment<T extends AppDelegate> extends
-        FragmentPresenter<T> {
+    FragmentPresenter<T> {
 
-    protected DataBinder binder;
+  protected DataBinder binder;
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        binder = getDataBinder();
+  @Override
+  public void onViewCreated(View view, Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
+    binder = getDataBinder();
+  }
+
+  public abstract DataBinder getDataBinder();
+
+  public <D extends IModel> void notifyModelChanged(D data) {
+    if (binder != null) {
+      binder.viewBindModel(viewDelegate, data);
     }
 
-    public abstract DataBinder getDataBinder();
-
-    public <D extends IModel> void notifyModelChanged(D data) {
-        if (binder != null)
-            binder.viewBindModel(viewDelegate, data);
-    }
+  }
 }

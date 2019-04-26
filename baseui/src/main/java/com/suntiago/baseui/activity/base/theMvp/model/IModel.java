@@ -22,6 +22,7 @@ import android.os.Parcelable;
  * Do Model-View two-way binding future use
  *
  * @author kymjs (http://www.kymjs.com/) on 10/23/15.
+ * 请使用 BaseModel
  */
 public interface IModel extends Parcelable {
 }

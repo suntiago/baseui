@@ -23,15 +23,38 @@ import com.suntiago.baseui.activity.base.theMvp.view.AppDelegate;
  * ViewModel实现
  *
  * @author kymjs (http://www.kymjs.com/) on 10/30/15.
+ * <p>
+ *
+ * 改为使用BindingD 方式来实现
  */
+@Deprecated
 public interface DataBinder<T extends AppDelegate, D extends IModel> {
 
-    /**
-     * 将数据与View绑定，这样当数据改变的时候，框架就知道这个数据是和哪个View绑定在一起的，就可以自动改变ui
-     * 当数据改变的时候，会回调本方法。
-     *
-     * @param AppDelegate 视图层代理
-     * @param data         数据模型对象
-     */
-    void viewBindModel(T AppDelegate, D data);
+  /**
+   * 将数据与View绑定，这样当数据改变的时候，框架就知道这个数据是和哪个View绑定在一起的，就可以自动改变ui
+   * 当数据改变的时候，会回调本方法。
+   *
+   * @param appDelegate 视图层代理
+   * @param data        数据模型对象
+   */
+  void viewBindModel(T appDelegate, D data);
+
+  /**
+   * 将数据与View绑定，这样当数据改变的时候，框架就知道这个数据是和哪个View绑定在一起的，就可以自动改变ui
+   * 当数据改变的时候，会回调本方法。
+   *
+   * @param appDelegate 视图层代理
+   * @param data        数据模型对象
+   */
+  void viewBindModel(T appDelegate, Object data);
+
+  /**
+   * 将数据与View绑定，这样当数据改变的时候，框架就知道这个数据是和哪个View绑定在一起的，就可以自动改变ui
+   * 当数据改变的时候，会回调本方法。
+   *
+   * @param appDelegate 视图层代理
+   * @param data        数据模型对象
+   * @param tag         数据-UI 配对标识
+   */
+  void viewBindModel(T appDelegate, Object data, String tag);
 }

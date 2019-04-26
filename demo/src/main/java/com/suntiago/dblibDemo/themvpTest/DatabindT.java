@@ -13,4 +13,14 @@ public class DatabindT implements DataBinder<MvpTestDelegate, JavaBeanT> {
         //调用viewDelegate跟新data里面的数据
         viewDelegate.viewBindModel(data);
     }
+
+    @Override
+    public void viewBindModel(MvpTestDelegate appDelegate, Object data) {
+
+    }
+
+    @Override
+    public void viewBindModel(MvpTestDelegate appDelegate, Object data, String tag) {
+
+    }
 }

@@ -1,6 +1,7 @@
 package com.suntiago.baseui.activity.base;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import com.hwangjr.rxbus.RxBus;
 import com.suntiago.baseui.activity.ActivityStackManager;
@@ -48,6 +49,27 @@ public abstract class ActivityBase<T extends AppDelegateBase, D extends IModel> 
     }
   }
 
+  public final void notifyModelChanged(final Object o) {
+    notifyModelChanged(o, null);
+  }
+
+  public final void notifyModelChanged(final Object o, final String tag) {
+    if (binder != null) {
+      runOnUiThread(new Runnable() {
+        @Override
+        public void run() {
+          if (!viewDelegate.dataBinding(o, tag)) {
+            if (TextUtils.isEmpty(tag)) {
+              binder.viewBindModel(viewDelegate, o);
+            } else {
+              binder.viewBindModel(viewDelegate, o, tag);
+            }
+          }
+        }
+      });
+    }
+  }
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -63,6 +85,7 @@ public abstract class ActivityBase<T extends AppDelegateBase, D extends IModel> 
     }
   }
 
+  @Override
   protected void bindEvenListener() {
     super.bindEvenListener();
     //Activity管理

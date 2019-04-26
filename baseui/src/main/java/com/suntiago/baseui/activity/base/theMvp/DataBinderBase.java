@@ -9,10 +9,24 @@ import com.suntiago.baseui.activity.base.theMvp.view.AppDelegate;
  */
 
 public class DataBinderBase implements DataBinder {
-    @Override
-    public void viewBindModel(AppDelegate viewDelegate, IModel data) {
-        if (viewDelegate != null) {
-            viewDelegate.viewBindModel(data);
-        }
+  @Override
+  public void viewBindModel(AppDelegate appDelegate, IModel data) {
+    if (appDelegate != null) {
+      appDelegate.viewBindModelin(data);
     }
+  }
+
+  @Override
+  public void viewBindModel(AppDelegate appDelegate, Object data) {
+    if (appDelegate != null) {
+      appDelegate.viewBindModelin(data);
+    }
+  }
+
+  @Override
+  public void viewBindModel(AppDelegate appDelegate, Object data, String tag) {
+    if (appDelegate != null) {
+      appDelegate.viewBindModelin(data, tag);
+    }
+  }
 }

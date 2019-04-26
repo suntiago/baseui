@@ -44,11 +44,11 @@ public class ActivityMvpTest extends ActivityBase<MvpTestDelegate, JavaBeanT> {
   }
 
   private void getName() {
-    Observable.just("Hello, world!")
+    Observable.just("Hello, world! this is new mvp")
         .subscribe(new Action1<String>() {
           @Override
           public void call(String s) {
-            viewDelegate.nameChanged(s);
+            notifyModelChanged(s, "name");
           }
         });
   }
