@@ -71,12 +71,15 @@ public abstract class ActivityBase<T extends AppDelegateBase, D extends IModel> 
     }
   }
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+  public ActivityBase() {
     if (iModel != null && iModel instanceof BaseModel) {
       ((BaseModel)iModel).setActivityBase(this);
     }
+  }
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
     viewDelegate.onACreate();
   }
 
