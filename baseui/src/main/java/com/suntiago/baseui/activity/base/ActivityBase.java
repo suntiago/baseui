@@ -7,6 +7,7 @@ import com.hwangjr.rxbus.RxBus;
 import com.suntiago.baseui.activity.ActivityStackManager;
 import com.suntiago.baseui.activity.base.theMvp.DataBinderBase;
 import com.suntiago.baseui.activity.base.theMvp.databind.DataBinder;
+import com.suntiago.baseui.activity.base.theMvp.model.BaseModel;
 import com.suntiago.baseui.activity.base.theMvp.model.IModel;
 import com.suntiago.baseui.activity.base.theMvp.presenter.ActivityPresenter;
 import com.suntiago.baseui.utils.log.Slog;
@@ -73,12 +74,15 @@ public abstract class ActivityBase<T extends AppDelegateBase, D extends IModel> 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    if (iModel != null && iModel instanceof BaseModel) {
+      ((BaseModel)iModel).setActivityBase(this);
+    }
     viewDelegate.onACreate();
   }
 
   @Override
-  protected void initView(Bundle savedInstanceState) {
-    super.initView(savedInstanceState);
+  protected void dataPreloaded(Bundle savedInstanceState) {
+    super.dataPreloaded(savedInstanceState);
     binder = getDataBinder();
     if (binder == null) {
       binder = dataBinderBase();

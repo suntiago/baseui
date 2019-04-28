@@ -8,6 +8,10 @@ import com.suntiago.baseui.activity.base.ActivityBase;
 public abstract class BaseModel implements IModel {
   ActivityBase mActivityBase;
 
+  public void setActivityBase(ActivityBase activityBase) {
+    mActivityBase = activityBase;
+  }
+
   public BaseModel(ActivityBase activityBase) {
     mActivityBase = activityBase;
   }

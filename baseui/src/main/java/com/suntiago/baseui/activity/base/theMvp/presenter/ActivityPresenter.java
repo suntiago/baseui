@@ -39,6 +39,9 @@ public abstract class ActivityPresenter<T extends IDelegate, D extends IModel> e
   protected T viewDelegate;
   protected D iModel;
 
+  private boolean tagdataPreloaded = false;
+  private boolean tagviewInited = false;
+
   public ActivityPresenter() {
     try {
       Class<T> tClass = getDelegateClass();
@@ -79,23 +82,53 @@ public abstract class ActivityPresenter<T extends IDelegate, D extends IModel> e
     Slog.state(TAG, "onCreate");
     //注册一些时间，比如rxbus, eventbus, 一些回调等
     bindEvenListener();
-    //初始化数据
-    initData(savedInstanceState);
-    //初始化界面
-    initView(savedInstanceState);
 
+    preLoadData(savedInstanceState);
+    //初始化界面
+    dataPreloaded(savedInstanceState);
+    //初始化数据
+    viewInited(savedInstanceState);
   }
 
+  //数据预加载，加载本子缓存数据，加载完数据之后
+  protected void preLoadData(Bundle savedInstanceState) {
+    Slog.state(TAG, "preLoadData");
+  }
+
+  //界面刷新完成，进一步获取数据
+  @CallSuper
+  protected synchronized void viewInited(Bundle savedInstanceState) {
+    if (!tagviewInited) {
+      Slog.state(TAG, "viewInited");
+      tagviewInited = true;
+    }
+  }
+
+  //use viewInited instead
+  @Deprecated
   @CallSuper
   protected void initData(Bundle savedInstanceState) {
     Slog.state(TAG, "initData");
+    viewInited(savedInstanceState);
   }
 
+  //use dataPreloaded instead
+  @Deprecated
   @CallSuper
   protected void initView(Bundle savedInstanceState) {
     Slog.state(TAG, "initView");
-    viewDelegate.create(getLayoutInflater(), null, savedInstanceState);
-    setContentView(viewDelegate.getRootView());
+    dataPreloaded(savedInstanceState);
+  }
+
+  //数据预加载完成，开始绘制界面，此时界面可以用到一些数据
+  @CallSuper
+  protected synchronized void dataPreloaded(Bundle savedInstanceState) {
+    if (!tagdataPreloaded) {
+      Slog.state(TAG, "dataPreloaded");
+      tagdataPreloaded = true;
+      viewDelegate.create(getLayoutInflater(), null, savedInstanceState);
+      setContentView(viewDelegate.getRootView());
+    }
   }
 
   @CallSuper

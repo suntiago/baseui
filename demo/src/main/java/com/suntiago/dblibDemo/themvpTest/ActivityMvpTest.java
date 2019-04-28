@@ -31,8 +31,8 @@ public class ActivityMvpTest extends ActivityBase<MvpTestDelegate, JavaBeanT> {
   }
 
   @Override
-  protected void initView(Bundle savedInstanceState) {
-    super.initView(savedInstanceState);
+  protected void dataPreloaded(Bundle savedInstanceState) {
+    super.dataPreloaded(savedInstanceState);
     viewDelegate.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
