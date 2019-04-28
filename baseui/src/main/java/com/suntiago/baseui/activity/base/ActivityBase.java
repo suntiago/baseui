@@ -81,8 +81,8 @@ public abstract class ActivityBase<T extends AppDelegateBase, D extends IModel> 
   }
 
   @Override
-  protected void dataPreloaded(Bundle savedInstanceState) {
-    super.dataPreloaded(savedInstanceState);
+  protected void initView(Bundle savedInstanceState) {
+    super.initView(savedInstanceState);
     binder = getDataBinder();
     if (binder == null) {
       binder = dataBinderBase();

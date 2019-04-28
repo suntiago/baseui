@@ -31,8 +31,8 @@ public class ActivityMvpTest extends ActivityBase<MvpTestDelegate, JavaBeanT> {
   }
 
   @Override
-  protected void dataPreloaded(Bundle savedInstanceState) {
-    super.dataPreloaded(savedInstanceState);
+  protected void initView(Bundle savedInstanceState) {
+    super.initView(savedInstanceState);
     viewDelegate.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -48,7 +48,7 @@ public class ActivityMvpTest extends ActivityBase<MvpTestDelegate, JavaBeanT> {
         .subscribe(new Action1<String>() {
           @Override
           public void call(String s) {
-            notifyModelChanged(s, "name");
+            iModel.setName(s);
           }
         });
   }
