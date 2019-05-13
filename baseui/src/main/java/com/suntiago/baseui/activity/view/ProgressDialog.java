@@ -39,11 +39,11 @@ public class ProgressDialog extends DialogFragment {
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     Dialog dialog = getDialog();
     if (dialog == null) {
-      return;
+      return null;
     }
     Window window = dialog.getWindow();
     if (window == null) {
-      return;
+      return null;
     }
     window.requestFeature(Window.FEATURE_NO_TITLE);
     window.setBackgroundDrawableResource(android.R.color.transparent);
