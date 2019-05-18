@@ -158,7 +158,7 @@ public abstract class SlothActivity extends AppCompatActivity {
         if (mProgressDlg == null) {
             mProgressDlg = ProgressDialog.newInstance();
         }
-        if (mResume) {
+        if (mResume && !mProgressDlg.isAdded()) {
             mProgressDlg.show(getFragmentManager(), "");
             mNeedToShowProgressDlg = false;
         } else {

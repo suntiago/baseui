@@ -35,7 +35,7 @@ public abstract class AppDelegateBase<D extends IModel> extends AppDelegate<D> {
   public Toolbar getToolbar() {
     if (mToolbar == null && rootView instanceof ViewGroup) {
       mToolbar = (Toolbar) LayoutInflater.from(rootView.getContext()).inflate(
-          R.layout.element_toolbar, (ViewGroup) rootView, false);
+              R.layout.element_toolbar, (ViewGroup) rootView, false);
       ((ViewGroup) rootView).addView(mToolbar, 0);
     }
     return mToolbar;
@@ -50,7 +50,7 @@ public abstract class AppDelegateBase<D extends IModel> extends AppDelegate<D> {
     if (mProgressDlg == null) {
       mProgressDlg = ProgressDialog.newInstance();
     }
-    if (mResume) {
+    if (mResume && !mProgressDlg.isAdded()) {
       mProgressDlg.show(getActivity().getFragmentManager(), "");
       mNeedToShowProgressDlg = false;
     } else {
