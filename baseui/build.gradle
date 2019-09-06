@@ -34,7 +34,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     compile files('libs/rxbus.jar')
     compile 'com.github.suntiago:getpermission:v1.0-beta'
-    compile 'com.github.suntiago:network:b01ee1cf7a'
+    compile 'com.github.suntiago:network:4dc303d24d'
     compile 'com.github.suntiago:dblib:v1.0-beta'
     compile 'com.github.suntiago:filterview:1.2'
     compile 'com.github.suntiago:LockPattern:v1.2'
