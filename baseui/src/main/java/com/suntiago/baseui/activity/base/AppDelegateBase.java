@@ -49,8 +49,10 @@ public abstract class AppDelegateBase<D extends IModel> extends AppDelegate<D> {
   public void showProgress() {
     if (mProgressDlg == null) {
       mProgressDlg = ProgressDialog.newInstance();
+    } else {
+      mProgressDlg.dismiss();
     }
-    if (mResume && !mProgressDlg.isAdded()) {
+    if (mResume) {
       mProgressDlg.show(getActivity().getFragmentManager(), "");
       mNeedToShowProgressDlg = false;
     } else {
